@@ -1,6 +1,10 @@
 import { Telegraf } from "telegraf";
 
-import { menu, registerMenuActions, start } from "./commands";
+import {
+  registerBotCommands,
+  registerMenuActions,
+  registerStickerIdHandler,
+} from "./commands";
 import { greeting } from "./text";
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import { development, production } from "./core";
@@ -10,9 +14,9 @@ const ENVIRONMENT = process.env.NODE_ENV || "";
 
 const bot = new Telegraf(BOT_TOKEN);
 
-bot.command("start", start());
-bot.command("menu", menu());
+registerBotCommands(bot);
 registerMenuActions(bot);
+registerStickerIdHandler(bot);
 bot.on("message", greeting());
 
 //prod mode (Vercel)

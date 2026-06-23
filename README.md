@@ -4,10 +4,11 @@ Mid Autumn Festival Puzzle Hunt
 
 ## Before you start
 
-First rename `.env.sample` file to `.env` and fill in all necessary values.
+First rename `.env.example` file to `.env` and fill in all necessary values.
 
 ```
 BOT_TOKEN="<YOUR_BOT_API_TOKEN>"
+WEBHOOK_URL="https://your-project.vercel.app"
 ```
 
 ## Start your local server
@@ -47,10 +48,14 @@ vercel
 
 - `/start` demonstrates a basic command.
 - `/menu` demonstrates inline buttons and callback actions.
+- `/get_sticker_id` waits for a sticker and returns its Telegram file ID.
+- `/send_sticker <file_id>` sends a sticker using a Telegram file ID.
 - The Telegram slash-command menu is registered automatically when the bot
   starts locally or receives a production request.
 
-Add new command files under `src/commands` and register them in `src/index.ts`.
+Add new command files under `src/commands`, then add one entry to
+`src/commands/botCommands.ts`. The command handler and Telegram slash-command
+menu are registered automatically in both development and production.
 
 ## Demo
 

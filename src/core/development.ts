@@ -1,6 +1,7 @@
 import { Context, Telegraf } from 'telegraf';
 import { Update } from 'telegraf/typings/core/types/typegram';
 import createDebug from 'debug';
+import { registerBotCommandMenu } from '../commands/botCommands';
 
 const debug = createDebug('bot:dev');
 
@@ -10,10 +11,7 @@ const development = async (bot: Telegraf<Context<Update>>) => {
   debug('Bot runs in development mode');
   debug(`${botInfo} deleting webhook`);
   await bot.telegram.deleteWebhook();
-  await bot.telegram.setMyCommands([
-    { command: 'start', description: 'Start the bot' },
-    { command: 'menu', description: 'Open the example menu' },
-  ]);
+  await registerBotCommandMenu(bot);
   debug(`${botInfo} starting polling`);
 
   await bot.launch();

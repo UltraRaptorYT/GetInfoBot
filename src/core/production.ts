@@ -2,35 +2,44 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 import createDebug from 'debug';
 import { Context, Telegraf } from 'telegraf';
 import { Update } from 'telegraf/typings/core/types/typegram';
+import { registerBotCommandMenu } from '../commands/botCommands';
 
 const debug = createDebug('bot:dev');
 
 const PORT = (process.env.PORT && parseInt(process.env.PORT, 10)) || 3000;
-const VERCEL_URL = `${process.env.VERCEL_URL}`;
+
+const getWebhookUrl = () => {
+  const domain =
+    process.env.WEBHOOK_URL ||
+    process.env.VERCEL_PROJECT_PRODUCTION_URL ||
+    process.env.VERCEL_URL;
+
+  if (!domain) {
+    throw new Error(
+      'Webhook URL is unavailable. Set WEBHOOK_URL in Vercel.',
+    );
+  }
+
+  const baseUrl = domain.startsWith('http') ? domain : `https://${domain}`;
+  return `${baseUrl.replace(/\/$/, '')}/api`;
+};
 
 const production = async (
   req: VercelRequest,
   res: VercelResponse,
   bot: Telegraf<Context<Update>>,
 ) => {
+  const webhookUrl = getWebhookUrl();
+
   debug('Bot runs in production mode');
-  debug(`setting webhook: ${VERCEL_URL}`);
+  debug(`setting webhook: ${webhookUrl}`);
 
-  if (!VERCEL_URL) {
-    throw new Error('VERCEL_URL is not set.');
-  }
-
-  await bot.telegram.setMyCommands([
-    { command: 'start', description: 'Start the bot' },
-    { command: 'menu', description: 'Open the example menu' },
-  ]);
+  await registerBotCommandMenu(bot);
 
   const getWebhookInfo = await bot.telegram.getWebhookInfo();
-  if (getWebhookInfo.url !== VERCEL_URL + '/api') {
-    debug(`deleting webhook ${VERCEL_URL}`);
-    await bot.telegram.deleteWebhook();
-    debug(`setting webhook: ${VERCEL_URL}/api`);
-    await bot.telegram.setWebhook(`${VERCEL_URL}/api`);
+  if (getWebhookInfo.url !== webhookUrl) {
+    debug(`setting webhook: ${webhookUrl}`);
+    await bot.telegram.setWebhook(webhookUrl);
   }
 
   if (req.method === 'POST') {
