@@ -1,70 +1,57 @@
-# Telegram Bot Vercel Template
+# BW Monastery Bot
 
-A blank TypeScript template for running a Telegram bot as a Vercel
-serverless webhook.
+Mid Autumn Festival Puzzle Hunt
 
-This project keeps only the general deployment shape inspired by BWMBot. It
-does not include BWMBot's branding, puzzle content, images, database code, or
-bot behavior.
+## Before you start
 
-## Requirements
+First rename `.env.sample` file to `.env` and fill in all necessary values.
 
-- Node.js 20 or newer
-- A Telegram bot token from [@BotFather](https://t.me/BotFather)
-- A Vercel account
+```
+BOT_TOKEN="<YOUR_BOT_API_TOKEN>"
+```
 
-## Local development
+## Start your local server
 
-1. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-2. Copy `.env.example` to `.env.local` and add your bot token:
-
-   ```env
-   BOT_TOKEN=your_bot_token
-   WEBHOOK_SECRET=
-   ```
-
-3. Start the bot with long polling and automatic restarts:
-
-   ```bash
-   npm run dev
-   ```
-
-The development process watches TypeScript files and restarts after changes.
-
-Telegram allows only one active delivery method per bot. Local development
-removes that bot's deployed webhook until you register it again. Using a
-separate Telegram bot token for local development avoids interrupting the
-production bot.
-
-## Deploy to Vercel
-
-1. Import this repository into Vercel.
-2. Add `BOT_TOKEN` in the project's environment variables.
-3. Generate a random `WEBHOOK_SECRET` and add it as another environment
-   variable.
-4. Deploy the project.
-5. Register the webhook, replacing all placeholder values:
-
-   ```bash
-   curl "https://api.telegram.org/bot<BOT_TOKEN>/setWebhook" \
-     --data-urlencode "url=https://<PROJECT>.vercel.app/api/webhook" \
-     --data-urlencode "secret_token=<WEBHOOK_SECRET>"
-   ```
-
-6. Open `https://<PROJECT>.vercel.app/` to verify the health endpoint.
-
-## Customize
-
-Add commands, actions, and message handlers in `src/bot.ts`. Keep secrets in
-Vercel environment variables and never commit a real `.env` file.
-
-## Useful checks
+1. Install Node Packages
 
 ```bash
-npm run typecheck
+npm i
 ```
+
+2. Start Node Packages
+
+```bash
+npm start
+```
+
+## Production
+
+1. Install Vercel CLI
+```bash
+npm i -g vercel
+```
+
+2. Login to Vercel using Vercel CLI
+```bash
+vercel login
+```
+
+3. Deploy using Vercel CLI
+```bash
+vercel
+```
+
+4. To ensure deployment works, Turn off `Vercel Authentication`, Settings => Deployment Protection
+
+## Template Examples
+
+- `/start` demonstrates a basic command.
+- `/menu` demonstrates inline buttons and callback actions.
+- The Telegram slash-command menu is registered automatically when the bot
+  starts locally or receives a production request.
+
+Add new command files under `src/commands` and register them in `src/index.ts`.
+
+## Demo
+
+You can see a working version of the bot at [@bwmonastery_bot](https://t.me/bwmonastery_bot)

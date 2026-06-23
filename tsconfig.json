@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
     "strict": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "target": "esnext",
+    "moduleResolution": "node",
+    "module": "commonjs",
     "skipLibCheck": true,
-    "noEmit": true
+    "sourceMap": true,
+    "outDir": "public",
+    "lib": ["esnext", "dom"],
+    "resolveJsonModule": true
   },
-  "include": ["api/**/*.ts", "src/**/*.ts"]
+  "exclude": ["node_modules"]
 }

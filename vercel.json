@@ -1,9 +1,11 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
+  "public": true,
   "rewrites": [
     {
-      "source": "/",
-      "destination": "/api/health"
+      "source": "/(.*)",
+      "destination": "api/index.ts"
     }
-  ]
+  ],
+  "redirects": [{ "source": "/", "destination": "/api", "permanent": false }]
 }

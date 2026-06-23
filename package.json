@@ -1,22 +1,29 @@
 {
   "name": "get-info-bot",
   "version": "1.0.0",
-  "private": true,
-  "description": "Blank Telegram bot template for Vercel",
-  "scripts": {
-    "dev": "tsx watch src/local.ts",
-    "typecheck": "tsc --noEmit"
-  },
+  "description": "A bot template for Telegram",
+  "main": "src/index.ts",
+  "author": "",
   "dependencies": {
-    "dotenv": "^16.5.0",
+    "@vercel/node": "^3.0.28",
+    "dotenv-cli": "^7.4.1",
     "telegraf": "^4.16.3"
   },
   "devDependencies": {
-    "@types/node": "^24.0.0",
-    "tsx": "^4.20.0",
-    "typescript": "^5.8.0"
+    "@types/debug": "^4.1.12",
+    "@types/node": "^20.12.8",
+    "@vercel/ncc": "^0.38.1",
+    "debug": "^4.3.4",
+    "nodemon": "^3.1.0",
+    "prettier": "^3.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
   },
-  "engines": {
-    "node": ">=20"
+  "scripts": {
+    "dev": "dotenv -- nodemon -e ts -x ts-node src/index.ts",
+    "devWindows": "@powershell -Command $env:DEBUG='bot*';dotenv -- -- nodemon -e ts -x ts-node src/index.ts",
+    "build": "ncc build src/index.ts -o public -m",
+    "prettier": "prettier --write 'src/**/*.ts'",
+    "lint": "tsc --noemit"
   }
 }
