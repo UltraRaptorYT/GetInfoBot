@@ -1,0 +1,22 @@
+{
+  "name": "get-info-bot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Blank Telegram bot template for Vercel",
+  "scripts": {
+    "dev": "tsx watch src/local.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "telegraf": "^4.16.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.8.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
